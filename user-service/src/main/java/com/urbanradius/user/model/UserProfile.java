@@ -21,6 +21,9 @@ public class UserProfile {
     @Id
     private UUID id;
 
+    @Column(name = "keycloak_id", nullable = false, unique = true)
+    private String keycloakId;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -52,8 +55,15 @@ public class UserProfile {
     protected UserProfile() {
     }
 
-    public UserProfile(String email, String fullName, String phone, String city, UserRole role) {
+    public UserProfile(
+            String keycloakId,
+            String email,
+            String fullName,
+            String phone,
+            String city,
+            UserRole role) {
         this.id = UUID.randomUUID();
+        this.keycloakId = keycloakId;
         this.email = email;
         this.fullName = fullName;
         this.phone = phone;
@@ -77,6 +87,10 @@ public class UserProfile {
 
     public UUID getId() {
         return id;
+    }
+
+    public String getKeycloakId() {
+        return keycloakId;
     }
 
     public String getEmail() {

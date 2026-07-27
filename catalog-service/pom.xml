@@ -10,9 +10,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-service</artifactId>
-    <name>Urban Radius User Service</name>
-    <description>User profiles, roles, and ratings</description>
+    <artifactId>catalog-service</artifactId>
+    <name>Urban Radius Catalog Service</name>
+    <description>Skill and service listings</description>
 
     <dependencies>
         <dependency>
@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,11 +38,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

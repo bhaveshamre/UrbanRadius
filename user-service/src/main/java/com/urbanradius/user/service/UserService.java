@@ -21,17 +21,26 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse register(RegisterUserRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
+    public UserResponse register(RegisterUserRequest request, String keycloakId, String email) {
+        if (userRepository.existsByKeycloakId(keycloakId)) {
+            throw new UrbanRadiusException(
+                    "PROFILE_ALREADY_EXISTS",
+                    "Profile already exists for this account",
+                    409
+            );
+        }
+
+        if (userRepository.existsByEmail(email)) {
             throw new UrbanRadiusException(
                     "DUPLICATE_EMAIL",
-                    "Email already registered: " + request.email(),
+                    "Email already registered: " + email,
                     409
             );
         }
 
         UserProfile profile = new UserProfile(
-                request.email(),
+                keycloakId,
+                email,
                 request.fullName(),
                 request.phone(),
                 request.city(),
@@ -42,21 +51,26 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserResponse getMe(String keycloakId) {
+        return UserResponse.from(findByKeycloakIdOrThrow(keycloakId));
+    }
+
+    @Transactional(readOnly = true)
     public UserResponse getById(UUID id) {
         return UserResponse.from(findProfileOrThrow(id));
     }
 
     @Transactional
-    public UserResponse rateUser(UUID userId, RateUserRequest request) {
-        if (userId.equals(request.raterId())) {
+    public UserResponse rateUser(UUID userId, RateUserRequest request, String keycloakId) {
+        UserProfile rater = findByKeycloakIdOrThrow(keycloakId);
+
+        if (userId.equals(rater.getId())) {
             throw new UrbanRadiusException(
                     "SELF_RATING_NOT_ALLOWED",
                     "Users cannot rate themselves",
                     400
             );
         }
-
-        findProfileOrThrow(request.raterId());
 
         UserProfile profile = findProfileOrThrow(userId);
         profile.applyRating(request.score());
@@ -68,6 +82,15 @@ public class UserService {
                 .orElseThrow(() -> new UrbanRadiusException(
                         "USER_NOT_FOUND",
                         "User not found: " + id,
+                        404
+                ));
+    }
+
+    private UserProfile findByKeycloakIdOrThrow(String keycloakId) {
+        return userRepository.findByKeycloakId(keycloakId)
+                .orElseThrow(() -> new UrbanRadiusException(
+                        "PROFILE_NOT_FOUND",
+                        "Profile not found for authenticated user",
                         404
                 ));
     }

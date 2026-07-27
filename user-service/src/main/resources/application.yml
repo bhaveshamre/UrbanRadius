@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: user-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/urban-radius
   datasource:
     url: jdbc:postgresql://localhost:5432/urban_radius_users
     username: urban

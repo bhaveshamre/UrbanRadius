@@ -1,4 +1,4 @@
-package com.urbanradius.user.config;
+package com.urbanradius.catalog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +26,12 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/users/*").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users/register").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/users/*/rate").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/listings/my").hasRole("PROVIDER")
+                        .requestMatchers(HttpMethod.GET, "/api/listings").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/listings/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/listings").hasRole("PROVIDER")
+                        .requestMatchers(HttpMethod.PUT, "/api/listings/*").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/listings/*").authenticated()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .authenticationEntryPoint(jwtAuthEntryPoint)

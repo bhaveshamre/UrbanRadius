@@ -1,0 +1,129 @@
+{
+  "realm": "urban-radius",
+  "enabled": true,
+  "displayName": "Urban Radius",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      {
+        "name": "SEEKER",
+        "description": "User looking for local skills and services"
+      },
+      {
+        "name": "PROVIDER",
+        "description": "User offering skills and services nearby"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Platform administrator"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "urban-radius-api",
+      "name": "Urban Radius API Client",
+      "description": "Postman and backend testing (password grant)",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "urban-radius-web",
+      "name": "Urban Radius Web App",
+      "description": "React frontend (authorization code flow)",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true,
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "priya@example.com",
+      "email": "priya@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Priya",
+      "lastName": "Sharma",
+      "realmRoles": [
+        "PROVIDER"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "secret",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "amit@example.com",
+      "email": "amit@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Amit",
+      "lastName": "Kumar",
+      "realmRoles": [
+        "SEEKER"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "secret",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "admin@urbanradius.com",
+      "email": "admin@urbanradius.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Urban",
+      "lastName": "Admin",
+      "realmRoles": [
+        "ADMIN"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

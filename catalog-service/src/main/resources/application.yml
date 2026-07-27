@@ -1,0 +1,14 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: catalog-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/urban_radius_catalog
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/urban-radius
