@@ -149,6 +149,27 @@ curl -X POST http://localhost:8082/api/listings \
 curl "http://localhost:8082/api/listings?city=Bangalore&category=HOME_REPAIR"
 ```
 
+## Phase 5 — React search UI (port 3000)
+
+Requires **Catalog Service** (8082), **User Service** (8081), **Keycloak**, and **MongoDB**.
+
+```bash
+docker compose up -d
+mvn spring-boot:run -pl user-service
+mvn spring-boot:run -pl catalog-service
+
+cd urban-radius-web
+npm install
+npm run dev
+# → http://localhost:3000
+```
+
+**Features:**
+- Live search via Catalog API (Redux)
+- Provider name + ★ rating on each card (User Service)
+- Login button → Keycloak (priya@example.com / secret)
+- Session persisted in browser until logout
+
 ### Stop services
 
 ```bash
