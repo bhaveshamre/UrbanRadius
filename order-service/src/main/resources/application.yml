@@ -1,0 +1,39 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/urban_radius_orders
+    username: urban
+    password: urban
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/urban-radius
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    admin:
+      auto-create: true
+
+urban-radius:
+  user-service-url: http://localhost:8081
+  catalog-service-url: http://localhost:8082
+  payment-service-url: http://localhost:8084
+  kafka:
+    booking-events-topic: booking-events
+  outbox:
+    relay-interval-ms: 5000
