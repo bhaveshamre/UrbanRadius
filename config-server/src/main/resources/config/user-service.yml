@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urban_radius_users
+    username: urban
+    password: urban

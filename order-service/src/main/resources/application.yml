@@ -4,43 +4,5 @@ server:
 spring:
   application:
     name: order-service
-  datasource:
-    url: jdbc:postgresql://localhost:5433/urban_radius_orders
-    username: urban
-    password: urban
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: UTC
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/urban-radius
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    admin:
-      auto-create: true
-
-urban-radius:
-  user-service-url: http://user-service
-  catalog-service-url: http://catalog-service
-  payment-service-url: http://payment-service
-  kafka:
-    booking-events-topic: booking-events
-  outbox:
-    relay-interval-ms: 5000
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+  config:
+    import: optional:configserver:http://localhost:8888

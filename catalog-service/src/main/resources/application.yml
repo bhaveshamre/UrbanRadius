@@ -4,18 +4,5 @@ server:
 spring:
   application:
     name: catalog-service
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/urban_radius_catalog
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/urban-radius
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+  config:
+    import: optional:configserver:http://localhost:8888
