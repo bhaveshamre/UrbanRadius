@@ -6,8 +6,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api/listings': 'http://localhost:8082',
-      '/api/users': 'http://localhost:8081',
+      '/api': 'http://localhost:8085',
       '/auth': {
         target: 'http://localhost:8080',
         rewrite: (path) =>

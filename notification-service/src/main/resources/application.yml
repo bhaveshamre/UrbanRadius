@@ -1,11 +1,10 @@
-server:
-  port: 8084
-
 spring:
+  main:
+    web-application-type: none
   application:
-    name: payment-service
+    name: notification-service
   datasource:
-    url: jdbc:postgresql://localhost:5434/urban_radius_payments
+    url: jdbc:postgresql://localhost:5435/urban_radius_notifications
     username: urban
     password: urban
   jpa:
@@ -16,18 +15,19 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/urban-radius
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-service
 
 urban-radius:
   user-service-url: http://user-service
+  kafka:
+    booking-events-topic: booking-events
 
 eureka:
   client:
+    register-with-eureka: false
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true

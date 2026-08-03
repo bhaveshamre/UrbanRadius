@@ -30,10 +30,17 @@ spring:
       auto-create: true
 
 urban-radius:
-  user-service-url: http://localhost:8081
-  catalog-service-url: http://localhost:8082
-  payment-service-url: http://localhost:8084
+  user-service-url: http://user-service
+  catalog-service-url: http://catalog-service
+  payment-service-url: http://payment-service
   kafka:
     booking-events-topic: booking-events
   outbox:
     relay-interval-ms: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

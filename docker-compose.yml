@@ -45,6 +45,18 @@ services:
     volumes:
       - urban-radius-payments-data:/var/lib/postgresql/data
 
+  postgres-notifications:
+    image: postgres:16
+    container_name: urban-radius-postgres-notifications
+    environment:
+      POSTGRES_DB: urban_radius_notifications
+      POSTGRES_USER: urban
+      POSTGRES_PASSWORD: urban
+    ports:
+      - "5435:5432"
+    volumes:
+      - urban-radius-notifications-data:/var/lib/postgresql/data
+
   kafka:
     image: bitnami/kafka:3.7
     container_name: urban-radius-kafka
@@ -64,3 +76,4 @@ volumes:
   urban-radius-mongo-data:
   urban-radius-orders-data:
   urban-radius-payments-data:
+  urban-radius-notifications-data:
