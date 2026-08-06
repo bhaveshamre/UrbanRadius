@@ -1,10 +1,11 @@
 import { UserProfile } from '../types/user';
+import { apiFetch, parseApiError } from './httpClient';
 
 export async function getUserProfile(providerId: string): Promise<UserProfile> {
-  const response = await fetch(`/api/users/${providerId}`);
+  const response = await apiFetch(`/api/users/${providerId}`);
 
   if (!response.ok) {
-    throw new Error(`Failed to load provider ${providerId}`);
+    throw new Error(await parseApiError(response, `Failed to load provider ${providerId}`));
   }
 
   return response.json() as Promise<UserProfile>;
@@ -29,10 +30,8 @@ export async function fetchProviderProfiles(
 }
 
 export async function fetchMe(token: string): Promise<UserProfile> {
-  const response = await fetch('/api/users/me', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const response = await apiFetch('/api/users/me', {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   if (!response.ok) {

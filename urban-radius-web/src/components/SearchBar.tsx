@@ -28,9 +28,9 @@ export function SearchBar({
       onSubmit={handleSubmit}
       className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
     >
-      <h2 className="text-lg font-semibold text-slate-800">Find skills near you</h2>
+      <h2 className="text-lg font-semibold text-slate-800">Filter services</h2>
       <p className="mt-1 text-sm text-slate-500">
-        Live search via Catalog Service + provider ratings from User Service.
+        Services load automatically. Adjust filters and search again to refine results.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

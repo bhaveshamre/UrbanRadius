@@ -170,6 +170,41 @@ npm run dev
 - Login button → Keycloak (priya@example.com / secret)
 - Session persisted in browser until logout
 
+## Phase 16 — React booking UI (port 3000)
+
+Requires **API Gateway** (8085), **Order Service** (8083), **Payment Service** (8084), plus all Phase 5 dependencies.
+
+```bash
+docker compose up -d
+mvn spring-boot:run -pl discovery-server
+mvn spring-boot:run -pl config-server
+mvn spring-boot:run -pl user-service
+mvn spring-boot:run -pl catalog-service
+mvn spring-boot:run -pl order-service
+mvn spring-boot:run -pl payment-service
+mvn spring-boot:run -pl api-gateway
+
+cd urban-radius-web
+npm run dev
+# → http://localhost:3000
+```
+
+**Features:**
+- **Search** tab — browse listings (Phase 5)
+- **Book now** on listing cards (seeker login required) → creates booking + payment hold
+- **My bookings** tab — seeker and provider views
+- Provider actions: Accept → Start work → Mark complete
+- Either party can Cancel (refunds held payment)
+- Payment status (HELD / RELEASED / REFUNDED) shown per booking
+
+**Test flow:**
+1. Log in as seeker: `amit@example.com` / `secret`
+2. Search Bangalore → click **Book now** on a listing
+3. Open **My bookings** — status `REQUESTED`, payment `held`
+4. Log in as provider: `priya@example.com` / `secret`
+5. **My bookings** → Accept → Start work → Mark complete
+6. Payment moves to `released` on completion
+
 ### Stop services
 
 ```bash

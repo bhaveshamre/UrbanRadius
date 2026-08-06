@@ -4,9 +4,11 @@ import { UserProfile } from '../types/user';
 interface ListingCardProps {
   listing: Listing;
   provider?: UserProfile;
+  canBook?: boolean;
+  onBook?: (listing: Listing) => void;
 }
 
-export function ListingCard({ listing, provider }: ListingCardProps) {
+export function ListingCard({ listing, provider, canBook, onBook }: ListingCardProps) {
   return (
     <article className="flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-200 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
@@ -35,6 +37,16 @@ export function ListingCard({ listing, provider }: ListingCardProps) {
           <p className="text-slate-500">{formatProviderId(listing.providerId)}</p>
         )}
       </div>
+
+      {canBook && onBook && (
+        <button
+          type="button"
+          onClick={() => onBook(listing)}
+          className="mt-4 w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+        >
+          Book now
+        </button>
+      )}
     </article>
   );
 }

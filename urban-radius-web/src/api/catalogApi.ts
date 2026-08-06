@@ -1,4 +1,5 @@
 import { Listing, SearchFilters } from '../types/listing';
+import { apiFetch, parseApiError } from './httpClient';
 
 export async function searchListings(filters: SearchFilters): Promise<Listing[]> {
   const params = new URLSearchParams();
@@ -16,19 +17,10 @@ export async function searchListings(filters: SearchFilters): Promise<Listing[]>
   const query = params.toString();
   const url = query ? `/api/listings?${query}` : '/api/listings';
 
-  const response = await fetch(url);
+  const response = await apiFetch(url);
 
   if (!response.ok) {
-    let message = `Search failed (${response.status})`;
-    try {
-      const body = (await response.json()) as { message?: string };
-      if (body.message) {
-        message = body.message;
-      }
-    } catch {
-      // use default message
-    }
-    throw new Error(message);
+    throw new Error(await parseApiError(response, `Search failed (${response.status})`));
   }
 
   const data = (await response.json()) as Listing[];
@@ -36,4 +28,15 @@ export async function searchListings(filters: SearchFilters): Promise<Listing[]>
     ...listing,
     priceAmount: Number(listing.priceAmount),
   }));
+}
+
+export async function getListingById(listingId: string): Promise<Listing> {
+  const response = await apiFetch(`/api/listings/${listingId}`);
+
+  if (!response.ok) {
+    throw new Error(await parseApiError(response, `Listing not found (${response.status})`));
+  }
+
+  const listing = (await response.json()) as Listing;
+  return { ...listing, priceAmount: Number(listing.priceAmount) };
 }

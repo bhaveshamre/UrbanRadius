@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,16 +23,16 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/listings/my").hasRole("PROVIDER")
+                        .requestMatchers(HttpMethod.GET, "/api/listings/{listingId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/listings").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/listings/*").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/listings").hasRole("PROVIDER")
-                        .requestMatchers(HttpMethod.PUT, "/api/listings/*").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/listings/*").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/listings/{listingId}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/listings/{listingId}").authenticated()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .authenticationEntryPoint(jwtAuthEntryPoint)

@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/urban_radius_payments
+    url: jdbc:postgresql://localhost:5436/urban_radius_payments
     username: urban
     password: urban

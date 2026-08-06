@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/urban_radius_orders
+    url: jdbc:postgresql://localhost:5436/urban_radius_orders
     username: urban
     password: urban
   kafka:
